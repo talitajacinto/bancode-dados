@@ -1,0 +1,97 @@
+create database BD_nova_havan;
+use BD_nova_havan;
+create table cliente(
+id_cliente int not null auto_increment,
+nome varchar(200),
+sexo char,
+data_nasc date,
+rg varchar(21),
+primary key (id_cliente)
+);
+
+desc cliente;
+
+create table endereco(
+id_endereco int not null auto_increment,
+cod_cliente int,
+rua varchar (200),
+bairro varchar(200),
+cidade varchar(100),
+primary key(id_endereco)
+);
+
+desc endereco;
+
+create table telefone(
+id_telefone int not null auto_increment,
+cod_cliente int,
+numero varchar(15),
+primary key(id_telefone)
+);
+
+desc telefone;
+
+create table produto(
+id_produto int not null auto_increment,
+nome varchar(50),
+marca varchar(100),
+primary key(id_produto)
+);
+
+desc produto;
+
+create table venda(
+id_venda int not null auto_increment,
+cod_cliente int,
+cod_produto int,
+valor float,
+data_venda date,
+primary key(id_venda)
+);
+
+desc venda;
+
+insert into cliente (nome, sexo, data_nasc, rg) values
+('Ana Clara', 'F', '1995-04-12', '123456789'),
+('João Augusto', 'M', '1988-09-23', '987654321');
+
+select * from cliente;
+
+insert into endereco (cod_cliente, rua, bairro, cidade)
+values
+(1, 'Rua Domingos Peneda, 120', 'Centro', 'Paranaguá'),
+(2, 'Av. Brasil, 45', 'Jardim América', 'Rio de Janeiro');
+
+select * from endereco;
+
+
+insert into telefone (cod_cliente, numero)
+values
+(1, '(41) 99876-1234'),
+(2, '(21) 98855-4321');
+
+select * from telefone;
+
+
+insert into produto (nome, marca)
+values
+('Smartphone Galaxy S22', 'Samsung'),
+('Notebook Aspire 5', 'Acer');
+
+select * from produto;
+
+insert into venda (cod_cliente, cod_produto, valor, data_venda)
+values
+(1, 1, 3500.00, '2025-10-10'),
+(2, 2, 4200.00, '2025-10-12');
+
+select * from venda;
+
+SELECT endereco.cod_cliente, cliente.nome,cliente.sexo, cliente.data_nasc, endereco.rua, endereco.bairro
+FROM cliente
+INNER JOIN endereco ON endereco.cod_cliente=cliente.id_cliente;
+
+SELECT cliente.nome, cliente.sexo,cod_produto,produto.nome,venda.valor
+FROM cliente
+INNER JOIN venda ON venda.cod_cliente=cliente.id_cliente
+INNER JOIN produto ON venda.cod_produto=produto.id_produto;
